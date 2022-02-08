@@ -1,8 +1,10 @@
 package com.hs.blog.service;
 
+import com.hs.blog.model.RoleType;
 import com.hs.blog.model.User;
 import com.hs.blog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,8 +16,17 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder encoder;
+
     @Transactional
     public void 회원가입(User user){
+
+        String rawPassword = user.getPassword(); // 원 비밀번호
+        String encPassword = encoder.encode(rawPassword); // 해쉬
+
+        user.setPassword(encPassword);
+        user.setRole(RoleType.USER);
         userRepository.save(user);
     }
 }

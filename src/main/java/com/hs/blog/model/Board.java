@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -27,12 +28,14 @@ public class Board {
     @Lob // 대용량 데이터
     private String content;
 
-    @ColumnDefault("0")
     private int count; // 조회수
 
     @ManyToOne // Board -> Many, User -> One 한 명의 유저가 여러 개의 게시글을 쓸 수 있음
     @JoinColumn(name="userId")
     private User user;
+
+    @OneToMany(mappedBy = "board", fetch = FetchType.EAGER)
+    private List<Reply> reply;
 
     @CreationTimestamp
     private Timestamp createDate;

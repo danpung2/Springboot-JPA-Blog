@@ -1,7 +1,6 @@
 package com.hs.blog.controller.api;
 
 import com.hs.blog.dto.ResponseDto;
-import com.hs.blog.model.RoleType;
 import com.hs.blog.model.User;
 import com.hs.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ public class UserApiController {
     @PostMapping("/auth/joinProc")
     public ResponseDto<Integer> save(@RequestBody User user){
         System.out.println("UserApiController: save 호출됨");
-        user.setRole(RoleType.USER);
+
         userService.회원가입(user);
         return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
     }
